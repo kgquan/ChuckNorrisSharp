@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 using ChuckNorrisSharp.Exceptions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
 
 namespace ChuckNorrisSharp.Client
 {
@@ -51,6 +53,45 @@ namespace ChuckNorrisSharp.Client
                         string json = await response.Content.ReadAsStringAsync();
                         return JsonConvert.DeserializeObject<T>(json, new IsoDateTimeConverter { DateTimeFormat = "yyyy-MM-dd HH:mm:ss.ffffff" } );
                         }
+                    else
+                    {
+                        throw new ApiException($"Response was not successful - error code {response.StatusCode}");
+                    }
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new Exception($"HttpRequestException: {ex.Message}", ex);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Async get failed: {ex.Message}", ex);
+            }
+        }
+
+        public async Task<List<T>> GetAsyncSearchResults<T>(string url)
+        {
+            try
+            {
+                using (HttpResponseMessage response = await client.GetAsync(url, HttpCompletionOption.ResponseContentRead, cancellationToken).ConfigureAwait(false))
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string json = await response.Content.ReadAsStringAsync();
+                        JObject searchResultsFromJson = JObject.Parse(json);
+
+                        //The returned JSON should have two keys: a "total" key with the value of the number of jokes returned, and
+                        //a "result" key containing all of the jokes
+                        IList<JToken> results = searchResultsFromJson["result"].Children().ToList();
+                        List<T> finalResult = new List<T>();
+                        foreach(JToken result in results)
+                        {
+                            T searchResult = result.ToObject<T>();
+                            finalResult.Add(searchResult);
+                        }
+
+                        return finalResult;
+                    }
                     else
                     {
                         throw new ApiException($"Response was not successful - error code {response.StatusCode}");

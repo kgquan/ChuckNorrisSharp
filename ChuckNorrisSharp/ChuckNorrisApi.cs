@@ -1,6 +1,7 @@
 ﻿using ChuckNorrisSharp.Client;
 using ChuckNorrisSharp.Models;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ChuckNorrisSharp
@@ -63,6 +64,14 @@ namespace ChuckNorrisSharp
         {
             string url = $"{BaseUrl}/jokes/categories";
             return await client.GetAsync<string[]>(url);
+        }
+
+        public async Task<List<Joke>> SearchForText(string query)
+        {
+            string url = $"{BaseUrl}/jokes/search?query={query}";
+            var response = await client.GetAsyncSearchResults<Joke>(url);
+
+            return response;
         }
     }
 }

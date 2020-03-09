@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using ChuckNorrisSharp;
@@ -34,6 +36,13 @@ namespace ChuckNorrisSharp.Example
                 Console.WriteLine("Getting categories:");
                 string[] categories = await api.GetCategories();
                 Console.WriteLine(string.Join(",", categories));
+
+                Console.WriteLine("Getting all jokes containing a particular word or phrase:");
+                List<Joke> searchResults = await api.SearchForText("films");
+                foreach(Joke result in searchResults)
+                {
+                    PrintProperties<Joke>(result);
+                }
             }
             catch (Exception ex)
             {
@@ -50,6 +59,8 @@ namespace ChuckNorrisSharp.Example
         /// <param name="elem">The element.</param>
         private static void PrintProperties<T>(T elem)
         {
+            string listString;
+
             if (elem != null)
             {
                 Console.WriteLine($"Element of type {typeof(T).Name} received.");
@@ -57,7 +68,14 @@ namespace ChuckNorrisSharp.Example
                 {
                     string name = descriptor.Name;
                     object value = descriptor.GetValue(elem);
-                    Console.WriteLine("{0}: {1}", name, value);
+
+                    if(value.GetType() == typeof(List<object>)) {
+                        listString = string.Join(",", (List<object>)value);
+                        Console.WriteLine("{0}: {1}", name, listString);
+                    } else
+                    {
+                        Console.WriteLine("{0}: {1}", name, value);
+                    }
                 }
             }
         }
