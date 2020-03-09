@@ -41,7 +41,7 @@ namespace ChuckNorrisSharp.Client
         /// </summary>
         /// <typeparam name="T">A generic type.</typeparam>
         /// <param name="url">The string URL.</param>
-        /// <returns>The task representing the work to be done.</returns>
+        /// <returns>A generic object containing the deserialized JSON.</returns>
         public async Task<T> GetAsync<T>(string url)
         {
             try
@@ -69,6 +69,12 @@ namespace ChuckNorrisSharp.Client
             }
         }
 
+        /// <summary>
+        /// Asynchronously retrieves search results from the specified URL.
+        /// </summary>
+        /// <typeparam name="T">A generic type.</typeparam>
+        /// <param name="url">The string URL.</param>
+        /// <returns>A list of generic objects containing the deserialized JSON.</returns>
         public async Task<List<T>> GetAsyncSearchResults<T>(string url)
         {
             try
@@ -80,8 +86,9 @@ namespace ChuckNorrisSharp.Client
                         string json = await response.Content.ReadAsStringAsync();
                         JObject searchResultsFromJson = JObject.Parse(json);
 
-                        //The returned JSON should have two keys: a "total" key with the value of the number of jokes returned, and
-                        //a "result" key containing all of the jokes
+                        //The returned JSON should have two keys: a "total" key with the value of the number of jokes returned, 
+                        //and a "result" key containing all of the jokes. A design decision was made to abstract the "total" out, 
+                        //as users can use List<T>.Count() to get the number of jokes instead.
                         IList<JToken> results = searchResultsFromJson["result"].Children().ToList();
                         List<T> finalResult = new List<T>();
                         foreach(JToken result in results)
