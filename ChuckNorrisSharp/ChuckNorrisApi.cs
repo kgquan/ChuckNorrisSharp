@@ -58,5 +58,11 @@ namespace ChuckNorrisSharp
 
             return await client.GetAsync<Joke>(url);
         }
+
+        public async Task<string[]> GetCategories()
+        {
+            string url = $"{BaseUrl}/jokes/categories";
+            return await client.GetAsync<string[]>(url);
+        }
     }
 }
