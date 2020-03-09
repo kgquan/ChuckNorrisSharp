@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using ChuckNorrisSharp.Exceptions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -54,7 +55,7 @@ namespace ChuckNorrisSharp.Client
                         }
                     else
                     {
-                        throw new Exception($"Response was not successful - error code {response.StatusCode}");
+                        throw new ApiException($"Response was not successful - error code {response.StatusCode}");
                     }
                 }
             }
