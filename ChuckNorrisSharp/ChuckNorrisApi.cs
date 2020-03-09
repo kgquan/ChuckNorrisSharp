@@ -43,6 +43,13 @@ namespace ChuckNorrisSharp
             return await client.GetAsync<Joke>(url);
         }
 
+        public async Task<Joke> GetRandomJoke(string name)
+        {
+            string url = $"{BaseUrl}/jokes/random?name={name}";
+
+            return await client.GetAsync<Joke>(url);
+        }
+
         public async Task<Joke> GetRandomJoke(string name, string[] categories)
         {
             string categoryString = String.Join(",", categories);

@@ -23,6 +23,10 @@ namespace ChuckNorrisSharp.Example
                 Joke jokeFromCategory = await api.GetRandomJoke(new string[] { "dev", "music" });
                 PrintProperties<Joke>(jokeFromCategory);
 
+                Console.WriteLine("Getting random personalized joke:");
+                Joke personalizedJoke = await api.GetRandomJoke("Peter");
+                PrintProperties<Joke>(personalizedJoke);
+
                 Console.WriteLine("Getting random personalized joke from a set of categories:");
                 Joke personalizedJokeFromCategory = await api.GetRandomJoke("Peter", new string[] { "dev", "music" });
                 PrintProperties<Joke>(personalizedJokeFromCategory);
