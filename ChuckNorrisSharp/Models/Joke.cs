@@ -23,7 +23,7 @@ namespace ChuckNorrisSharp.Models
         /// The URL to the chucknorris.io icon. Used primarily for phone apps and chatbots.
         /// </summary>
         [JsonProperty("Icon_Url")]
-        public string IconUrl { get; set; 
+        public string IconUrl { get; set; } 
         /// <summary>
         /// The ID of the joke.
         /// </summary>
