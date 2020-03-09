@@ -22,6 +22,10 @@ namespace ChuckNorrisSharp.Example
                 Console.WriteLine("Getting random joke from a set of categories:");
                 Joke jokeFromCategory = await api.GetRandomJoke(new string[] { "dev", "music" });
                 PrintProperties<Joke>(jokeFromCategory);
+
+                Console.WriteLine("Getting random personalized joke from a set of categories:");
+                Joke personalizedJokeFromCategory = await api.GetRandomJoke("Peter", new string[] { "dev", "music" });
+                PrintProperties<Joke>(personalizedJokeFromCategory);
             }
             catch (Exception ex)
             {
