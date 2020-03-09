@@ -11,14 +11,17 @@ namespace ChuckNorrisSharp.Example
         [STAThread]
         static async Task Main(string[] args)
         {
-            Console.WriteLine("Getting random joke:");
             ChuckNorrisApi api = new ChuckNorrisApi();
 
             try
             {
+                Console.WriteLine("Getting random joke:");
                 Joke joke = await api.GetRandomJoke();
-
                 PrintProperties<Joke>(joke);
+
+                Console.WriteLine("Getting random joke from a set of categories:");
+                Joke jokeFromCategory = await api.GetRandomJoke(new string[] { "dev", "music" });
+                PrintProperties<Joke>(jokeFromCategory);
             }
             catch (Exception ex)
             {
