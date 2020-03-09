@@ -8,6 +8,7 @@ namespace ChuckNorrisSharp
     public class ChuckNorrisApi : IDisposable
     {
         private ChuckNorrisClient client;
+        private const string BaseUrl = "https://api.chucknorris.io";
 
         public ChuckNorrisApi()
         {
@@ -28,7 +29,7 @@ namespace ChuckNorrisSharp
 
         public async Task<Joke> GetRandomJoke()
         {
-            string url = "https://api.chucknorris.io/jokes/random";
+            string url = $"{BaseUrl}/jokes/random";
 
             return await client.GetAsync<Joke>(url);
         }

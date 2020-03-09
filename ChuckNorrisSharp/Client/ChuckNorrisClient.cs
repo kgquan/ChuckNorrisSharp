@@ -19,8 +19,6 @@ namespace ChuckNorrisSharp.Client
         private CancellationTokenSource source;
         private CancellationToken cancellationToken;
 
-        private const string BaseUrl = "https://api.chucknorris.io/";
-
         public ChuckNorrisClient()
         {
             client = new HttpClient();
