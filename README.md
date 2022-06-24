@@ -3,7 +3,7 @@ An C# wrapper for https://api.chucknorris.io, a Chuck Norris joke API.
 
 ## Requirements
 * .NET Standard 2.0
-* Newtonsoft Json.NET (12.0.3)
+* Newtonsoft Json.NET (13.0.1)
 
 ## Installation instructions
 Clone or download it from Github as a .zip file.
